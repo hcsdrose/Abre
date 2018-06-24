@@ -32,12 +32,12 @@
 	//Display Card
 	echo "<div class='mdl-card mdl-shadow--2dp card_stream hoverable' style='float:left;'>";
 
-		//Feed
-		echo "<div class='truncate' style='padding:16px 16px 0 16px; font-size: 12px; color: #999; font-weight: 500;'>";
+		//Stream
+		echo "<div class='truncate' style='padding:20px 20px 0 20px;'>";
 			if($color != ""){
-				echo "<a href='#addstreamcomment' class='chip modal-readstream'  data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='background-color: $color; color: white; height:20px; line-height:20px; margin-bottom: 0px; font-weight: 500;' target='_blank'>$feedtitle</a>";
+				echo "<a href='#addstreamcomment' class='chip modal-readstream'  data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='background-color: $color; color: #fff; height:20px; line-height:20px; margin-bottom: 0px; font-weight: 500;' target='_blank'>$feedtitle</a>";
 			}else{
-				echo "<a href='#addstreamcomment' class='chip modal-readstream' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='background-color: #BDBDBD; color: white; height:20px; line-height:20px; margin-bottom: 0px; font-weight: 500;' target='_blank'>$feedtitle</a>";
+				echo "<a href='#addstreamcomment' class='chip modal-readstream' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='background-color: #BDBDBD; color: #fff; height:20px; line-height:20px; margin-bottom: 0px; font-weight: 500;' target='_blank'>$feedtitle</a>";
 			}
 			if($type == "custom" && ($owner == $_SESSION['useremail'] || admin())){
 				echo "<div class='right-align pointer' style='float:right; position:absolute; right:15px; top:18px; z-index:5;'><a class='removepost' data-id='$id'><i class='material-icons' style='font-size: 16px; color: #333;'>clear</i></a></div>";
@@ -45,13 +45,13 @@
 		echo "</div>";
 
 		//Title
-		echo "<div class='cardtitle' style='height:60px; padding:5px 16px 0 16px;'>";
-			echo "<div class='mdl-card__title-text ellipsis-multiline cardclick pointer modal-readstream' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='font-weight:700; font-size:20px; line-height:24px;'>$titlewithoutlongwords</div>";
+		echo "<div class='cardtitle' style='padding:10px 20px 0px 20px; height:65px;'>";
+			echo "<div class='mdl-card__title-text ellipsis-multiline pointer modal-readstream' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='font-weight:700; font-size:20px; line-height:24px;'>$titlewithoutlongwords</div>";
 		echo "</div>";
 
 		//Date
-		echo "<div class='truncate' style='padding:0 16px 10px 16px; font-size: 14px;'>";
-			echo "<a class='modal-readstream' href='#addstreamcomment' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='color: #9E9E9E;' target='_blank'>$displaydate</a>";
+		echo "<div class='truncate' style='padding:0 20px 20px 20px;'>";
+			echo "<a class='modal-readstream' href='#addstreamcomment' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='color: #9E9E9E;  font-size: 14px;' target='_blank'>$displaydate</a>";
 		echo "</div>";
 
 		//Card Image
