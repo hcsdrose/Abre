@@ -56,7 +56,7 @@
 			echo "</div>";
 
 			//Date
-			echo "<div class='truncate' style='padding:10px 20px 20px 20px;'>";
+			echo "<div class='truncate' style='padding:0 20px 20px 20px;'>";
 				echo "<a class='modal-readstream' href='#addstreamcomment' data-commenticonid='comment_$cardcountloop' data-image='$imagebase' data-redirect='latest' data-title='$titleencoded' data-excerpt='$rawexcerpt' data-url='$linkbase' data-type='$type' style='color: #9E9E9E;  font-size: 14px;' target='_blank'>$displaydate</a>";
 			echo "</div>";
 
