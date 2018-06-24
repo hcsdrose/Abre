@@ -60,7 +60,7 @@
 	 	</div>
 
 	 	<!-- Stream Announcement -->
-		<div id="streampost" class="modal modal-fixed-footer modal-mobile-full">
+		<div id="streampost" class="fullmodal modal modal-fixed-footer modal-mobile-full" style='max-width:800px;'>
 			<form id="form-streampost" method="post" enctype='multipart/form-data' action="modules/stream/action_save_announcement.php">
 				<div class="modal-content" style="padding: 0px !important;">
 					<div class="row" style='background-color: <?php echo getSiteColor(); ?>; padding: 24px;'>
@@ -122,7 +122,7 @@
 	?>
 
 	<!-- Read and Comment Modal -->
-	<div id="addstreamcomment" class="modal modal-fixed-footer modal-mobile-full">
+	<div id="addstreamcomment" class="fullmodal modal modal-fixed-footer modal-mobile-full" style='max-width:800px;'>
 		<div id="commentloader" class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="width:100%"></div>
 		<form id="form-addstreamcomment" method="post" action="modules/stream/action_comment_add.php">
 			<div class="modal-content" id="modal-content-section" style="padding: 0px !important;">

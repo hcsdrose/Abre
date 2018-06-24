@@ -23,6 +23,7 @@
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
 	require_once(dirname(__FILE__) . '/../../api/streams-api.php');
 	require_once(dirname(__FILE__) . '/../../api/profile-api.php');
+	require_once('functions.php');
 
   //Find what streams to display
   if (useAPI()) {
@@ -165,7 +166,7 @@
     if ($cloudsetting=="true")
       include "action_save_image_gc.php";
     else
-      include "view_save_image.php";
+      include "action_save_image.php";
 
     $link = mysqli_real_escape_string($db, $linkraw);
     if (useAPI()) {
@@ -191,7 +192,8 @@
     }
 
     if($title != "" && $excerpt != ""){
-      include "view_card.php";
+
+			DisplayCard($id,$type,$color,$owner,$feedtitle,$title,$image,$date,$rawexcerpt,$excerpt,$linkraw,$link,$num_rows_like,$num_rows_comment,$cardcountloop);
       $cardcount++;
     }
   }
@@ -411,7 +413,7 @@
 					data: { id: id }
 				})
 				.done(function(response){
-					$.get('modules/stream/stream_announcements.php?StreamStartResult=0&StreamEndResult=24', function(results){
+					$.get('modules/stream/view_stream_announcements.php?StreamStartResult=0&StreamEndResult=24', function(results){
 						$('#showmorestream').hide();
 						$('#streamcards').html(results);
 						var notification = document.querySelector('.mdl-js-snackbar');

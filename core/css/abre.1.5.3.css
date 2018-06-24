@@ -71,7 +71,7 @@ tbody > tr { border-bottom-color: #e9e9e9 !important; }
 
 
 /* Multi-line Ellipsis */
-.ellipsis-multiline { overflow: hidden; position: relative;  line-height: 1.2em; max-height: 2.4em;  margin-right: -1em; padding-right: 1em; }
+.ellipsis-multiline { overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; position: relative;  line-height: 1.2em; max-height: 2.4em;  margin-right: -1em; padding-right: 1em; }
 .ellipsis-multiline:before { position: absolute; right: 0; bottom: 0; }
 .ellipsis-multiline:after { content: ''; position: absolute; right: 0; width: 1em; height: 1em; margin-top: 0.2em; background: white; }
 
