@@ -77,7 +77,7 @@
 		//Paging function
 		function streamPaging(start,end){
 
-			$.get('modules/stream/stream_'+Page+'.php?StreamStartResult='+start+'&StreamEndResult='+end, function(results){
+			$.get('modules/stream/view_stream_'+Page+'.php?StreamStartResult='+start+'&StreamEndResult='+end, function(results){
 				$('#showmorestream').hide();
 			    $('#streamcards').append(results);
 			});
