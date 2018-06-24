@@ -192,9 +192,9 @@
 		//Add images to server to securely store and reference
 		$cloudsetting=constant("USE_GOOGLE_CLOUD");
 		if ($cloudsetting=="true")
-			include "stream_save_image_gc.php";
+			include "action_save_image_gc.php";
 		else
-			include "stream_save_image.php";
+			include "view_save_image.php";
 
 		$link = mysqli_real_escape_string($db, $linkraw);
 		if (useAPI()) {
@@ -220,7 +220,7 @@
 		}
 
 		if($title != "" && $excerpt != ""){
-			include "card.php";
+			include "view_card.php";
 			$cardcount++;
 		}
 
@@ -259,9 +259,9 @@
 			var elementCount = $(this).next();
 			var elementIcon = $(this);
 
-			$.post("modules/stream/stream_like.php", { url: Stream_Url, title: Stream_Title, image: Stream_Image, excerpt: excerpt })
+			$.post("modules/stream/view_stream_like.php", { url: Stream_Url, title: Stream_Title, image: Stream_Image, excerpt: excerpt })
 			.done(function(data) {
-				$.post( "modules/<?php echo basename(__DIR__); ?>/update_card.php", {url: Stream_Url, type: "like"})
+				$.post( "modules/<?php echo basename(__DIR__); ?>/action_update_card.php", {url: Stream_Url, type: "like"})
 				.done(function(data) {
 					if(data.count == 0){
 						elementIcon.addClass("mdl-color-text--grey-600");
@@ -359,7 +359,7 @@
 				$(".modal-content #streamLink").attr("href", atob(Stream_Url));
 			}
 
-			$( "#streamComments" ).load( "modules/stream/comment_list.php?url="+Stream_Url, function() {
+			$( "#streamComments" ).load( "modules/stream/view_comment_list.php?url="+Stream_Url, function() {
 				$("#commentloader").hide();
 			});
 
@@ -423,7 +423,7 @@
 			<?php
 			if($_SESSION['usertype'] == 'staff'){
 			?>
-			$( "#streamComments" ).load( "modules/stream/comment_list.php?url="+Stream_Url, function() {
+			$( "#streamComments" ).load( "modules/stream/view_comment_list.php?url="+Stream_Url, function() {
 				$("#commentloader").hide();
 			});
 			<?php

@@ -342,9 +342,9 @@
 				var elementIcon = $(this);
 				var card = $(this).closest('.card_stream');
 
-				$.post("modules/stream/stream_like.php", { url: Stream_Url, title: Stream_Title, image: Stream_Image, excerpt: excerpt })
+				$.post("modules/stream/view_stream_like.php", { url: Stream_Url, title: Stream_Title, image: Stream_Image, excerpt: excerpt })
 				.done(function(data) {
-					$.post( "modules/<?php echo basename(__DIR__); ?>/update_card.php", {url: Stream_Url, type: "like"})
+					$.post( "modules/<?php echo basename(__DIR__); ?>/action_update_card.php", {url: Stream_Url, type: "like"})
 					.done(function(data) {
 						if(data.count == 0){
 							elementIcon.addClass("mdl-color-text--grey-600");
@@ -450,7 +450,7 @@
 				$(".modal-content #streamLink").attr("href", atob(Stream_Url));
 			}
 
-			$( "#streamComments" ).load( "modules/stream/comment_list.php?url="+Stream_Url, function() {
+			$( "#streamComments" ).load( "modules/stream/view_comment_list.php?url="+Stream_Url, function() {
 				$("#commentloader").hide();
 			});
 
@@ -511,7 +511,7 @@
 				$(".modal-content #streamLink").attr("href", atob(Stream_Url));
 			}
 
-			$( "#streamComments" ).load( "modules/stream/comment_list.php?url="+Stream_Url, function() {
+			$( "#streamComments" ).load( "modules/stream/view_comment_list.php?url="+Stream_Url, function() {
 				$("#commentloader").hide();
 			});
 
