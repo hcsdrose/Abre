@@ -362,7 +362,7 @@
 			if(streamImage != ""){
 				$(".modal-content #streamPhotoHolder").show();
 				$(".modal-content #streamPhoto").addClass("mdl-card__media");
-				$(".modal-content #streamPhoto").attr('style', 'height:200px;');
+				$(".modal-content #streamPhoto").attr('style', 'height:300px;');
 				$(".modal-content #streamPhoto").css("background-image", "url("+atob(streamImage)+")");
 			}else{
 				$(".modal-content #streamPhotoHolder").hide();
@@ -423,7 +423,7 @@
 			if(streamImage != ""){
 				$(".modal-content #streamPhotoHolder").show();
 				$(".modal-content #streamPhoto").addClass("mdl-card__media");
-				$(".modal-content #streamPhoto").attr('style', 'height:200px;');
+				$(".modal-content #streamPhoto").attr('style', 'height:300px;');
 				$(".modal-content #streamPhoto").css("background-image", "url("+atob(streamImage)+")");
 			}else{
 				$(".modal-content #streamPhotoHolder").hide();

@@ -87,7 +87,7 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="text" name="post_title" id="post_title" autocomplete="off" placeholder="Enter an announcement title" required>
+								<input type="text" name="post_title" id="post_title" autocomplete="off" placeholder="Enter Announcement Title" required>
 								<label for="post_title" class="active">Title</label>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 	?>
 
 	<!-- Read and Comment Modal -->
-	<div id="addstreamcomment" class="fullmodal modal modal-fixed-footer modal-mobile-full" style='max-width:800px;'>
+	<div id="addstreamcomment" class="fullmodal modal modal-fixed-footer modal-mobile-full" style='max-width:700px;'>
 		<div id="commentloader" class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="width:100%"></div>
 		<form id="form-addstreamcomment" method="post" action="modules/stream/action_comment_add.php">
 			<div class="modal-content" id="modal-content-section" style="padding: 0px !important;">
