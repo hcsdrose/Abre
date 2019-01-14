@@ -17,10 +17,9 @@
     */
 
 	//Required configuration files
-	require(dirname(__FILE__) . '/../../configuration.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
-	require_once(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
 
 	//Display Stream and Widgets
 	echo "<div class='row'>";
@@ -33,8 +32,6 @@
 
 			//Display Stream
 			echo "<div id='streamcards'>";
-
-				require('view_stream_announcements.php');
 
 			echo "</div>";
 
@@ -56,7 +53,7 @@
 
 		echo "</div>";
 
-		if(admin() || AdminCheck($_SESSION['useremail']) || isStreamHeadlineAdministrator()){
+		if(admin() || AdminCheck($_SESSION['escapedemail']) || isStreamHeadlineAdministrator()){
 			require "view_stream_fab.php";
 		}
 
@@ -67,6 +64,11 @@
 <script>
 
 	$(function(){
+
+		$('#streamnavigationloader').show();
+		$("#streamcards").load('modules/stream/view_stream_announcements.php', function(){
+			$('#streamnavigationloader').hide();
+		});
 
 		//Variables
 		var Page = "announcements";
@@ -164,16 +166,18 @@
 		//Add a Custom Post
 		$(".streampost").unbind().click(function(event){
 			event.preventDefault();
+			$("#post_header").text("New Announcement");
 			$("#post_title").val('');
 			$("#post_stream").val('');
 			$("#post_content").html('');
 			tinymce.get("post_content").setContent('');
 			$("#customimage").val('');
+			$("#post_id").val('');
 			$('#post_image').hide();
-			$("#postStudentRestrictions").val('No Restrictions');
-			$("#postStaffRestrictions").val('No Restrictions');
-			$("#postStudentRestrictionsDiv").hide();
-			$("#postStaffRestrictionsDiv").hide();
+
+			$("#custompostdeletebutton").hide();
+			$("#custompostsavebutton").hide();
+			$("#custompostbutton").show();
 
 			$('#streampost').openModal({
 				in_duration: 0,

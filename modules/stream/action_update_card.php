@@ -17,7 +17,6 @@
     */
 
 	//Required configuration files
-	require(dirname(__FILE__) . '/../../configuration.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
@@ -41,10 +40,10 @@
 			$num_rows_comment = $result['counts']['comments'];
 		}
 		else {
-			$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' and comment != ''";
+			$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' and comment != '' AND siteID = '".$_SESSION['siteID']."'";
 			$dbreturn = $db->query($query);
 			$resultrow = $dbreturn->fetch_assoc();
-			$num_rows_comment = $resultrow["COUNT(*)"];	
+			$num_rows_comment = $resultrow["COUNT(*)"];
 		}
 
 		if(isset($redirect)){
@@ -53,13 +52,13 @@
 					$num_rows_comment_current_user = $result['counts']['userComments'];
 				}
 				else {
-					$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND comment != '' AND user = '".$_SESSION['useremail']."'";
+					$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND comment != '' AND user = '".$_SESSION['escapedemail']."' AND siteID = '".$_SESSION['siteID']."'";
 					$dbreturn = $db->query($query);
 					$row = $dbreturn->fetch_assoc();
 					$num_rows_comment_current_user = $row["COUNT(*)"];
 				}
 
-				$query = "SELECT COUNT(*) FROM streams_comments WHERE user = '".$_SESSION['useremail']."' AND comment != '' GROUP BY url ORDER BY ID DESC";
+				$query = "SELECT COUNT(*) FROM streams_comments WHERE user = '".$_SESSION['escapedemail']."' AND comment != '' AND siteID = '".$_SESSION['siteID']."' GROUP BY url ORDER BY ID DESC";
 				$dbreturn = $db->query($query);
 				$streamCardsLeft = 0;
 				while($resultrow = $dbreturn->fetch_assoc()){
@@ -82,16 +81,16 @@
   if($type == "like"){
 
 	if (useAPI()) {
-		$num_rows_like = $result['counts']['likes'];                            
+		$num_rows_like = $result['counts']['likes'];
 		$num_rows_like_current_user = $result['counts']['userLikes'];
 	}
 	else {
-		$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND comment = '' AND liked = '1'";
+		$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND comment = '' AND liked = '1' AND siteID = '".$_SESSION['siteID']."'";
 		$dbreturn = $db->query($query);
 		$resultrow = $dbreturn->fetch_assoc();
 		$num_rows_like = $resultrow["COUNT(*)"];
 
-		$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND liked = '1' AND user = '".$_SESSION['useremail']."'";
+		$query = "SELECT COUNT(*) FROM streams_comments WHERE url = '$link' AND liked = '1' AND user = '".$_SESSION['escapedemail']."' AND siteID = '".$_SESSION['siteID']."'";
 		$dbreturn = $db->query($query);
 		$resultrow = $dbreturn->fetch_assoc();
 		$num_rows_like_current_user = $resultrow["COUNT(*)"];

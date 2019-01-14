@@ -19,6 +19,14 @@
 	//Required configuration files
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
+	$portal_private_root = getConfigPortalPrivateRoot();
+	$portal_path_root = getConfigPortalPathRoot();
+
+	$cloudsetting = getenv("USE_GOOGLE_CLOUD");
+	if ($cloudsetting=="true")
+		require(dirname(__FILE__). '/../../vendor/autoload.php');
+	use Google\Cloud\Storage\StorageClient;
 
   if($_POST['id'] != ""){
     $id = $_POST['id'];
@@ -29,11 +37,36 @@
     exit;
   }
 
+	$sql = "SELECT post_image FROM stream_posts WHERE id = $id LIMIT 1";
+	$query = $db->query($sql);
+	$row = $query->fetch_assoc();
+	$image = $row['post_image'];
+
+	if($cloudsetting == "true"){
+		$storage = new StorageClient([
+			'projectId' => getenv("GC_PROJECT")
+		]);
+		$bucket = $storage->bucket(getenv("GC_BUCKET"));
+
+		$uploaddir = "private_html/stream/cache/images/".$image;
+
+		//Delete old image
+		$postimage = $uploaddir;
+		if($bucket->object($postimage)->exists()){
+			$object = $bucket->object($postimage);
+			$object->delete();
+		}
+	}else{
+		if(file_exists($portal_path_root."/../$portal_private_root/stream/cache/images/".$image)){
+			unlink($portal_path_root."/../$portal_private_root/stream/cache/images/".$image);
+		}
+	}
+
   //Delete Post
   $stmt = $db->stmt_init();
-  $sql = "DELETE FROM stream_posts WHERE id = ?";
+  $sql = "DELETE FROM stream_posts WHERE id = ? AND siteID = ?";
   $stmt->prepare($sql);
-  $stmt->bind_param("i", $id);
+  $stmt->bind_param("ii", $id, $_SESSION['siteID']);
   $stmt->execute();
   if($stmt->error != ""){
 		$stmt->close();
@@ -46,9 +79,9 @@
   $stmt->close();
 
 	$stmt = $db->stmt_init();
-	$sql = "DELETE FROM streams_comments WHERE url = ?";
+	$sql = "DELETE FROM streams_comments WHERE url = ? AND siteID = ?";
 	$stmt->prepare($sql);
-	$stmt->bind_param("s", $id);
+	$stmt->bind_param("si", $id, $_SESSION['siteID']);
 	$stmt->execute();
 	$stmt->close();
 	$db->close();

@@ -17,7 +17,6 @@
     */
 
 	//Required configuration files
-	require(dirname(__FILE__) . '/../../configuration.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
 ?>
@@ -32,7 +31,7 @@
 <script>
 
 	$(function(){
-		
+
 		$('.stream').addClass('tabmenuover');
 
 		$(".stream").unbind().click(function(event){
@@ -42,7 +41,7 @@
 			$("#streamstream").removeClass("streamstream_toggle");
 			$("#streamwidgets").removeClass("streamwidgets_toggle");
 		});
-		
+
 		$(".widgets").unbind().click(function(event){
 			event.preventDefault();
 			$('.widgets').addClass('tabmenuover');
@@ -50,7 +49,7 @@
 			$("#streamstream").addClass("streamstream_toggle");
 			$("#streamwidgets").addClass("streamwidgets_toggle");
 		});
-		
+
 		$(window).resize(function (){
 		    var viewportWidth = $(window).width();
 		    if (viewportWidth > 992){
@@ -60,7 +59,7 @@
 				$('.widgets').removeClass('tabmenuover');
 		    }
 		});
-		
+
 	});
 
 </script>

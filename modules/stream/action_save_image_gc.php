@@ -20,8 +20,9 @@
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
 	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	$portal_root = getConfigPortalRoot();
 
-	$cloudsetting=constant("USE_GOOGLE_CLOUD");
+	$cloudsetting = getenv("USE_GOOGLE_CLOUD");
 	if ($cloudsetting=="true")
 		require(dirname(__FILE__). '/../../vendor/autoload.php');
 	use Google\Cloud\Storage\StorageClient;
@@ -30,20 +31,34 @@
 	if($image != ""){
 
 		$storage = new StorageClient([
-			'projectId' => constant("GC_PROJECT")
+			'projectId' => getenv("GC_PROJECT")
 		]);
-		$bucket = $storage->bucket(constant("GC_BUCKET"));
+		$bucket = $storage->bucket(getenv("GC_BUCKET"));
 
 		//Determine if Custom or Feed Post
 		if ($type=="custom"){
 			$cloud_file = "private_html/stream/cache/images/$image";
-			if ($bucket->object($cloud_file)->exists()){
+
+			$query = "SELECT COUNT(*) FROM streams_cache WHERE link = '$image'";
+			$dbreturn = $db->query($query);
+			$resultrow = $dbreturn->fetch_assoc();
+			$stream_exists = $resultrow["COUNT(*)"];
+
+			if ($stream_exists > 0) {
 				$fileExtension = pathinfo($image, PATHINFO_EXTENSION);
-				$image = $portal_root."/modules/stream/view_serve_image.php?file=$cloud_file&ext=$fileExtension";
+				$image = $portal_root."/modules/stream/stream_serve_image.php?file=$image&ext=$fileExtension";
 			}
 			else
 			{
-				$image = "";
+				// Also check bucket exists for situation that the image is there, but it was placed
+				// in the bucket before we wrote to streams_cache
+				if ($bucket->object($cloud_file)->exists()){
+					$fileExtension = pathinfo($image, PATHINFO_EXTENSION);
+					$image = $portal_root."/modules/stream/stream_serve_image.php?file=$image&ext=$fileExtension";
+				}
+				else {
+					$image = "";
+				}
 			}
 		}
 		else
@@ -69,7 +84,7 @@
 				// Not using bucket exists for performance reasons
 				//if ($bucket->object($cloud_file)->exists()){
 				if ($stream_exists > 0) {
-					$image = $portal_root."/modules/stream/view_serve_image.php?file=$cloud_file&image=$imagefile&ext=$fileExtension";
+					$image = $portal_root."/modules/stream/stream_serve_image.php?file=$imagefile&image=$imagefile&ext=$fileExtension";
 					/*
 					$info = $bucket->object($cloud_file)->info();
 					if ($info['size'] < 1000) {
@@ -77,10 +92,15 @@
 					}
 					*/
 				}else{
-					//Check for 404 and 403 errors
-					$file_headers = @get_headers($image);
-					if((!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') or (!$file_headers || $file_headers[0] == 'HTTP/1.1 403 Forbidden')
-					or (!$file_headers || $file_headers[0] == 'HTTP/1.0 400 Bad Request') or (!$file_headers || $file_headers[0] == 'HTTP/1.1 503 Service Unavailable')){
+					$handle = curl_init($image);
+					curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 2);
+					curl_setopt($handle, CURLOPT_TIMEOUT, 2);
+					curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+					$response = curl_exec($handle);
+					$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+					curl_close($handle);
+
+					if($httpCode != 200) {
 					    $image = "";
 					}else{
 						//Make sure file is an image

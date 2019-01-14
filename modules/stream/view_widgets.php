@@ -17,10 +17,10 @@
     */
 
 	//Required configuration files
-	require(dirname(__FILE__) . '/../../configuration.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
-	require_once(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	$portal_root = getConfigPortalRoot();
 
 	$WidgetCount = 0;
 
@@ -28,7 +28,7 @@
 	echo "<div class='widgetsort'>";
 
 		//Check to see if there is a saved order
-		$sql = "SELECT * FROM profiles WHERE email = '".$_SESSION['useremail']."'";
+		$sql = "SELECT * FROM profiles WHERE email = '".$_SESSION['escapedemail']."' AND siteID = '".$_SESSION['siteID']."'";
 		$result = $db->query($sql);
 		$widgets_order = NULL;
 		$widgets_hidden = NULL;

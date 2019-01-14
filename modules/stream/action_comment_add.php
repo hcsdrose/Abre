@@ -19,7 +19,8 @@
 	//Required configuration files
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
-	require_once(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	$portal_root = getConfigPortalRoot();
 
 	if($_SESSION['usertype'] == 'staff'){
 		$streamUrl = $_POST["streamUrl"];
@@ -38,9 +39,9 @@
 
 		if($streamComment != "" && $streamTitleValue != ""){
 			$stmt = $db->stmt_init();
-			$sql = "INSERT INTO streams_comments (url, title, image, user, comment, excerpt) VALUES (?, ?, ?, ?, ?, ?);";
+			$sql = "INSERT INTO streams_comments (url, title, image, user, comment, excerpt, siteID) VALUES (?, ?, ?, ?, ?, ?, ?);";
 			$stmt->prepare($sql);
-			$stmt->bind_param("ssssss", $streamUrldecoded, $streamTitleValue, $trimmedimageurl, $userposter, $streamComment, $streamExcerpt);
+			$stmt->bind_param("ssssssi", $streamUrldecoded, $streamTitleValue, $trimmedimageurl, $userposter, $streamComment, $streamExcerpt, $_SESSION['siteID']);
 			$stmt->execute();
 			$stmt->close();
 			$db->close();

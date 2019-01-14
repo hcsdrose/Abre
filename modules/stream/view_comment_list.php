@@ -19,7 +19,9 @@
 	//Required configuration files
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
-	require_once(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	$portal_root = getConfigPortalRoot();
+	$siteColor = getSiteColor();
 
 	if($_SESSION['usertype'] == 'staff'){
 
@@ -31,7 +33,7 @@
 			$url = "";
 		}
 		if($url != ""){
-			$sql = "(SELECT user, comment, title, id, creationtime FROM streams_comments WHERE url = '$url' AND comment != '' ORDER BY id DESC) ORDER BY id DESC LIMIT 100";
+			$sql = "(SELECT user, comment, title, id, creationtime FROM streams_comments WHERE url = '$url' AND comment != '' AND siteID = '".$_SESSION['siteID']."' ORDER BY id DESC) ORDER BY id DESC LIMIT 100";
 		}
 
 		//Display comments
@@ -59,7 +61,7 @@
 
 				//Look up name given email from directory
 				$picture = "";
-				$sql = "SELECT firstname, lastname, picture FROM directory WHERE email = '$User'";
+				$sql = "SELECT firstname, lastname, picture FROM directory WHERE email = '$User' AND siteID = '".$_SESSION['siteID']."'";
 				$dbreturn = databasequery($sql);
 				$firstname = "";
 				$lastname = "";
@@ -154,8 +156,8 @@
 								$("#"+id).html(data.count);
 							}else{
 								$("#"+id).prev().removeClass("mdl-color-text--grey-600");
-								$("#"+id).prev().css("color", "<?php echo getSiteColor(); ?>");
-								$("#"+id).css("color", "<?php echo getSiteColor(); ?>");
+								$("#"+id).prev().css("color", "<?php echo $siteColor; ?>");
+								$("#"+id).css("color", "<?php echo $siteColor; ?>");
 								$("#"+id).html(data.count);
 							}
 							if(redirect == "comments"){

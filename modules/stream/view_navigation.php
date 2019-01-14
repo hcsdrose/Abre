@@ -17,10 +17,9 @@
     */
 
 	//Required configuration files
-	require(dirname(__FILE__) . '/../../configuration.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_verification.php');
 	require_once(dirname(__FILE__) . '/../../core/abre_functions.php');
-	require_once(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
+	require(dirname(__FILE__) . '/../../core/abre_dbconnect.php');
 
 	echo "<div class='mdl-card mdl-shadow--2dp' id='streamnavigation' style='border-top: solid 3px"; echo getSiteColor(); echo "'>";
 		echo "<div class='row' style='padding:0; margin:0;'>";
